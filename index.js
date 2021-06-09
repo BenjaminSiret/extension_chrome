@@ -1,5 +1,18 @@
-let tabs = [2,84,85]
-let principal = chrome.tabs.group({tabIds : tabs});
+// liste en dur des ids des tabs que je mets dans le groupe
+let tabList = [2,42,43]
+
+// fonction d'ajout de l'id de la nouvelle tab
+function newTab() {
+  chrome.tabs.onCreated.addListener((tab) => {
+  tabList.push(tab.id);
+  console.log(tabList);
+})}
+
+
+newTab();
+
+let principal = chrome.tabs.group({tabIds : tabList});
+
 
 
 
