@@ -1,5 +1,5 @@
 // liste en dur des ids des tabs que je mets dans le groupe
-let tabList = [2,42,43]
+let tabList = []
 
 // fonction d'ajout de l'id de la nouvelle tab
 function newTab() {
@@ -8,13 +8,16 @@ function newTab() {
   console.log(tabList);
 })}
 
-
 newTab();
 
-let principal = chrome.tabs.group({tabIds : tabList});
+// fonction qui groupe chaque tab à sa création
+function groupTabs(list) {
+  chrome.tabs.onCreated.addListener(() => {
+    chrome.tabs.group({tabIds : list});
+    console.log("coucou");
+  })}
 
-
-
+groupTabs(tabList);
 
 chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
   document.write(`<h3>Voici les onglets ouverts :</h3>`);
