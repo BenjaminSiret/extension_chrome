@@ -44,7 +44,7 @@ Object.keys(group).forEach((category) => {
 //   document.write('</ul>');
 // });
 
-// affichage des informations avec innerHTML
+// affichage des informations avec insertAdjacentHTML
 chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
   let div = document.getElementById('target_div');
   div.insertAdjacentHTML('beforebegin', `<h3>Voici les onglets ouverts : </h3>`);
