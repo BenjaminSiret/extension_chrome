@@ -33,14 +33,24 @@ Object.keys(group).forEach((category) => {
 
 
 // affichage des informations sur les onglets ouverts
-chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
-  document.write(`<h3>Voici les onglets ouverts :</h3>`);
-  document.write('<ul>');
-  for (let i = 0; i < tabs.length; i++) {
-    document.write(`<li>url : ${tabs[i].url}</li>`);
-    document.write(`<li>id de la tab : ${tabs[i].id}</li>`);
-    document.write(`-----------------`);
-  }
-  document.write('</ul>');
-});
+// chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
+//   document.write(`<h3>Voici les onglets ouverts :</h3>`);
+//   document.write('<ul>');
+//   for (let i = 0; i < tabs.length; i++) {
+//     document.write(`<li>url : ${tabs[i].url}</li>`);
+//     document.write(`<li>id de la tab : ${tabs[i].id}</li>`);
+//     document.write(`-----------------`);
+//   }
+//   document.write('</ul>');
+// });
 
+// affichage des informations avec innerHTML
+chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
+  let div = document.getElementById('target_div');
+  div.insertAdjacentHTML('beforebegin', `<h3>Voici les onglets ouverts : </h3>`);
+  for (let i = 0; i < tabs.length; i++ ) {
+    div.insertAdjacentHTML('afterbegin', `l'onglet numero ${i + 1} est ouvert sur le site suivant: ${tabs[i].url}` );
+    div.insertAdjacentHTML('afterbegin', `..........`);
+  }
+
+})
