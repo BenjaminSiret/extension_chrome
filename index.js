@@ -9,19 +9,19 @@ chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
   // console.log(Object.keys(group));
 })
 
-// affichage des différents groupes ainsi que les urls qui en font partie
-Object.keys(group).forEach((category) => {
-  console.log(category, ":", group[category]);
-});
-
 
 // affichage des informations avec insertAdjacentHTML
-chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
-  let div = document.getElementById('target_div');
-  div.insertAdjacentHTML('beforebegin', `<h3>Voici les onglets ouverts : </h3>`);
-  for (let i = 0; i < tabs.length; i++ ) {
-    div.insertAdjacentHTML('afterbegin', `l'onglet numero ${i + 1} est ouvert sur le site suivant: ${tabs[i].url}` );
-    div.insertAdjacentHTML('afterbegin', `..........`);
+chrome.tabs.query({currentWindow: true}, (tab) => {
+  let tabsList = document.getElementById('tabsList');
+  tabsList.insertAdjacentHTML('beforebegin', `<h3>Onglets ouverts: </h3>`);
+  for (let i = 0; i < tab.length; i++ ) {
+    tabsList.insertAdjacentHTML('beforeend',`<li> ${tab[i].url} </li>`);
   }
-
 })
+
+// affichage des différents groupes ainsi que les urls qui en font partie
+Object.keys(group).forEach((category) => {
+  console.log(group[category]);
+  let categoriesList = document.getElementById('categoriesList');
+  categoriesList.insertAdjacentHTML('beforeend',`<li> ${category} </li>`);
+});
