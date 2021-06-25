@@ -1,10 +1,10 @@
 // création de groupe en dur pour tester
-let group = { sport: [], educ: [], culture: []};
+const tabsCategories = { sport: [], educ: [], culture: []};
 
 // je remplace la tabList en dur par les vrais ids des tabs
-chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
+chrome.tabs.query({currentWindow: true}, (tabs) => {
   for (let i = 0; i < tabs.length; i++) {
-    group.sport.push(tabs[i].url);
+    tabsCategories.sport.push(tabs[i].url);
   }
   // console.log(Object.keys(group));
 })
@@ -20,8 +20,22 @@ chrome.tabs.query({currentWindow: true}, (tab) => {
 })
 
 // affichage des différents groupes ainsi que les urls qui en font partie
-Object.keys(group).forEach((category) => {
-  console.log(group[category]);
-  let categoriesList = document.getElementById('categoriesList');
-  categoriesList.insertAdjacentHTML('beforeend',`<li> ${category} </li>`);
-});
+// Object.keys(group).forEach((category) => {
+//   console.log(group[category]);
+//   let categoriesList = document.getElementById('categoriesList');
+//   categoriesList.insertAdjacentHTML('beforeend',`<li> ${category} </li>`);
+// });
+
+const displayTabsCategories = (tabsCategories) => {
+  const categories = Object.keys(tabsCategories);
+  const categoriesList = document.getElementById('categoriesList');
+  categories.forEach((category) => {
+    categoriesList.insertAdjacentHTML('beforeend', `<li>${category}</li>`);
+    const categoryTabs = tabsCategories[category];
+    categoryTabs.forEach((categoryTab) => {
+      console.log(categoryTab);
+    })
+  })
+}
+
+displayTabsCategories(tabsCategories);
