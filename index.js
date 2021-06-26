@@ -1,13 +1,11 @@
 // création de groupe en dur pour tester
-const groups = { sport: [], educ: [], culture: []};
+let groups = { sport: [1,4,5], educ: [], culture: []};
 
 // je remplace la tabList en dur par les vrais ids des tabs
 chrome.tabs.query({currentWindow: true}, (tabs) => {
   for (let i = 0; i < tabs.length; i++) {
     groups.sport.push(tabs[i].url);
   }
-// console.log(Object.keys(groups));
-
 })
 
 
@@ -34,6 +32,7 @@ const displayTabsCategories = (tabsCategories) => {
     categoriesList.insertAdjacentHTML('beforeend', `<li>${category}</li>`);
     const categoryTabs = tabsCategories[category];
     categoryTabs.forEach((categoryTab) => {
+      console.log(categoryTab);
       const tabs = document.getElementById('tabs');
       tabs.insertAdjacentHTML('beforeend', `<li>${categoryTab}</li>`)
     })
