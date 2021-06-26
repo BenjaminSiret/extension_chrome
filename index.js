@@ -1,13 +1,20 @@
 // création de groupe en dur pour tester
 let groups = { sport: [1,4,5], educ: [], culture: []};
 
-// je remplace la tabList en dur par les vrais ids des tabs
-chrome.tabs.query({currentWindow: true}, (tabs) => {
-  for (let i = 0; i < tabs.length; i++) {
-    groups.sport.push(tabs[i].url);
-  }
-})
+// fonction qui récupère la tab en cours
+const getCurrentTab = async () => {
+  let queryOptions = { active: true, currentWindow: true };
+  let [tab] = await chrome.tabs.query(queryOptions);
+  return tab;
+}
 
+// fonction qui affiche la tab en cours
+const displayCurrentTab = async () => {
+  const tab = await getCurrentTab();
+  console.log(tab);
+}
+
+displayCurrentTab();
 
 // affichage des informations avec insertAdjacentHTML
 chrome.tabs.query({currentWindow: true}, (tab) => {
@@ -32,7 +39,6 @@ const displayTabsCategories = (tabsCategories) => {
     categoriesList.insertAdjacentHTML('beforeend', `<li>${category}</li>`);
     const categoryTabs = tabsCategories[category];
     categoryTabs.forEach((categoryTab) => {
-      console.log(categoryTab);
       const tabs = document.getElementById('tabs');
       tabs.insertAdjacentHTML('beforeend', `<li>${categoryTab}</li>`)
     })
