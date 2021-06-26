@@ -1,37 +1,36 @@
 // création de groupe en dur pour tester
 let groups = { sport: [1,4,5], educ: [], culture: []};
 
-// fonction qui récupère la tab en cours
+// fonction qui récupère les tabs ouvertes
+const getOpenedTab = async () => {
+  let queryOptions = { currentWindow: true };
+  let tabs = await chrome.tabs.query(queryOptions);
+  return tabs;
+}
+
+// fonction qui affiche les tabs ouvertes
+const displayOpenedTabs = async () => {
+  const tabsList = document.getElementById('tabsList');
+  const tabs = await getOpenedTab();
+  tabs.forEach((tab) => {
+    tabsList.insertAdjacentHTML('beforeend', `<li>${tab.url}</li>`);
+  })
+}
+
+displayOpenedTabs();
+
+// fonction qui ajoute une tab à un groupe
+// test avec le groupe sport
 const getCurrentTab = async () => {
-  let queryOptions = { active: true, currentWindow: true };
+  let queryOptions = { currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
 }
+const newTab = getCurrentTab();
+console.log(newTab);
 
-// fonction qui affiche la tab en cours
-const displayCurrentTab = async () => {
-  const tab = await getCurrentTab();
-  console.log(tab);
-}
-
-displayCurrentTab();
-
-// affichage des informations avec insertAdjacentHTML
-chrome.tabs.query({currentWindow: true}, (tab) => {
-  let tabsList = document.getElementById('tabsList');
-  tabsList.insertAdjacentHTML('beforebegin', `<h3>Onglets ouverts: </h3>`);
-  for (let i = 0; i < tab.length; i++ ) {
-    tabsList.insertAdjacentHTML('beforeend',`<li> ${tab[i].url} </li>`);
-  }
-})
 
 // affichage des différents groupes ainsi que les urls qui en font partie
-// Object.keys(group).forEach((category) => {
-//   console.log(group[category]);
-//   let categoriesList = document.getElementById('categoriesList');
-//   categoriesList.insertAdjacentHTML('beforeend',`<li> ${category} </li>`);
-// });
-
 const displayTabsCategories = (tabsCategories) => {
   const categories = Object.keys(tabsCategories);
   const categoriesList = document.getElementById('categoriesList');
@@ -45,5 +44,5 @@ const displayTabsCategories = (tabsCategories) => {
   })
 }
 
-displayTabsCategories(groups);
+// displayTabsCategories(groups);
 
